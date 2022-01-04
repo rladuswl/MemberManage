@@ -31,12 +31,14 @@ public class MemberController {
 
         List<Member> members = memberService.memberList();
 
-        /**
+        memberService.remainingdays(members);
+
+        /*
          * 잔여일수 구하는 로직
          * 잔여일수는 마감일자 - 오늘일자 이다.
          * 즉 신청일자가 2021-11-27일이고 마감일자가 2021-11-29 이라면
          * 잔여일수는 2일이다.
-         */
+
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
         LocalDate now = LocalDate.now();
         String todayString = now.format(formatter); // 오늘 날짜 String화
@@ -70,6 +72,7 @@ public class MemberController {
                 memberService.memberDelete(member.getId());
             }
         }
+         */
 
         model.addAttribute("list", memberService.memberList());
         return "memberlist";
@@ -103,15 +106,16 @@ public class MemberController {
         String dateString2 = format.format(cal.getTime());
         member.setEnd(dateString2);
 
+        int disPrice = memberService.discount(member);
 
-        /**
+        /*
          * 할인율 셋팅
          * 브론즈    0%
          * 실버     5%
          * 골드     10%
          * 플래티넘  15%
          * 다이아   20%
-         */
+
 
         String memberGrade = member.getGrade();  // 멤버의 등급을 받아옴
         double discountPriceDouble = 0; // 멤버로 할인된 가격
@@ -136,8 +140,8 @@ public class MemberController {
 
         int discountPrice = (int)discountPriceDouble;
         member.setMoney(discountPrice);
-
-
+        */
+        member.setMoney(disPrice);
         memberService.write(member);
         return "redirect:/member/list";
     }
@@ -172,14 +176,14 @@ public class MemberController {
     public String memberUpdate(@PathVariable("id") Integer id, Member member) {
         Member update = memberService.memberView(id);
 
-        /**
+        /*
          * 할인율 셋팅
          * 브론즈    0%
          * 실버     5%
          * 골드     10%
          * 플래티넘  15%
          * 다이아   20%
-         */
+
 
         String memberGrade = member.getGrade();  // 멤버의 등급을 받아옴
         double discountPriceDouble = 0; // 멤버로 할인된 가격
@@ -201,12 +205,12 @@ public class MemberController {
                 break;
         }
         int discountPrice = (int)discountPriceDouble;
-
-
+        */
+        int disPrice = memberService.discount(member);
         update.setGrade(member.getGrade());
         update.setName(member.getName());
         update.setType(member.getType());
-        update.setMoney(discountPrice);
+        update.setMoney(disPrice);
         update.setAddress(member.getAddress());
         update.setPhone(member.getPhone());
 
