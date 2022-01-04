@@ -243,7 +243,7 @@ public class MemberController {
 
 
 
-    // 멤버 기간 연장
+    // 전체 멤버 기간 연장
     @GetMapping("/member/plus")
     public String memberPlus(Model model) {
         return "plus";
@@ -279,5 +279,41 @@ public class MemberController {
         }
         return "redirect:/member/list";
     }
+
+
+    // 개별 멤버 기간 연장
+    @GetMapping("/member/memberplus/{id}")
+    public String memberPlus2(Model model, @PathVariable("id") Integer id) {
+        model.addAttribute("member", memberService.memberView(id));
+        return "memberplus";
+    }
+
+    @PostMapping("/member/memberplusPro/{id}")
+    public String memberPlusPro2(int plusDate, @PathVariable("id") Integer id) {
+        Member member = memberService.memberView(id);
+
+
+        String endDay = member.getEnd(); // 멤버의 종료일 구하기
+        DateFormat format = new SimpleDateFormat("yyyy-MM-dd");
+
+        Calendar cal = Calendar.getInstance();
+        Date regDate = null;
+        try {
+            regDate = format.parse(endDay);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        cal.setTime(regDate);
+
+        cal.add(Calendar.DATE, plusDate);
+        String dateValue = format.format(cal.getTime());
+
+        member.setEnd(dateValue);
+        memberService.write(member);
+
+        return "redirect:/member/list";
+    }
+
 }
+
 
