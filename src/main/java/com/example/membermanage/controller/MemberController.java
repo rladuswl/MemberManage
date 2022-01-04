@@ -25,6 +25,8 @@ public class MemberController {
     @Autowired
     private MemberService memberService;
 
+
+
     // 멤버 정보 모두 불러오기
     @GetMapping("/member/list")
     public String memberList(Model model) {
@@ -150,6 +152,8 @@ public class MemberController {
     // 회원 상세 페이지
     @GetMapping("member/view") // localhost:8080/member/view?id=1
     public String boardView(Model model, Integer id) {
+        Member member = memberService.memberView(id);
+        memberService.remainingdays2(member);
         model.addAttribute("member", memberService.memberView(id));
         return "memberview";
     }
@@ -276,3 +280,4 @@ public class MemberController {
         return "redirect:/member/list";
     }
 }
+
