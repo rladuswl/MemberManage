@@ -6,6 +6,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import javax.servlet.http.HttpSession;
 import javax.transaction.Transactional;
 
 @RequiredArgsConstructor
@@ -23,5 +24,10 @@ public class AuthService {
 
         User userEntity = userRepository.save(user);
         return userEntity;
+    }
+
+    //로그아웃
+    public void logout(HttpSession session) {
+        session.invalidate();
     }
 }

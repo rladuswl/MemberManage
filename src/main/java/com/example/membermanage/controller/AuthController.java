@@ -7,6 +7,11 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import javax.servlet.http.HttpSession;
+
+import javax.servlet.http.HttpServletRequest;
 
 @RequiredArgsConstructor
 @Controller
@@ -34,4 +39,13 @@ public class AuthController {
 
         return "signin";
     }
+
+    // 로그인성공 창에서 로그아웃 버튼
+    //@RequestMapping(value="logout", method = RequestMethod.GET)
+    @GetMapping("/logout")
+    public String logout(HttpSession session) throws Exception {
+        authService.logout(session);
+        return "redirect:/signin";
+    }
+
 }
