@@ -11,6 +11,7 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
@@ -40,7 +41,7 @@ public class MemberService {
     }
 
 
-    // 잔여 일수 구하기 List<Member> members - ㄱㅇㅈ
+    // 잔여 일수 구하기 List<Member> members
     public void remainingdays(List<Member> members) {
         /**
          * 잔여일수 구하는 로직
@@ -123,7 +124,7 @@ public class MemberService {
             }
         }
 
-    // 할인율 계산 ㄱㅇㅈ
+    // 할인율 계산
     public int discount(Member member) {
         /**
          * 할인율 셋팅
@@ -176,6 +177,8 @@ public class MemberService {
 
         memberRepository.deleteById(id);
     }
+
+
 
 
 
